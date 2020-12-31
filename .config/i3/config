@@ -1,0 +1,76 @@
+# Auto-lock screen after 2 idle minutes
+exec --no-startup-id xautolock -time 2 -locker "~/.config/i3/lock.sh; xmodmap ~/.Xmodmap"
+
+# Use Windows key as modifier key
+set $mod Mod1
+
+# UI tweaks
+exec --no-startup-id xsetroot -solid "#282828"
+new_window pixel 3
+hide_edge_borders both
+font pango:Hack Regular 9
+focus_follows_mouse no
+
+gaps inner 10
+
+client.focused          #4c7899 #285577 #ffffff #4c7899 #4c7899
+client.focused_inactive #4c7899 #285577 #ffffff #4c7899 #4c7899
+client.unfocused        #4c7899 #285577 #ffffff #4c7899 #4c7899
+client.urgent           #2f343a #900000 #ffffff #2f343a #2f343a
+client.placeholder      #000000 #0c0c0c #ffffff #000000 #000000
+
+bar {
+  status_command i3status
+  tray_output none
+
+  height 20
+
+  colors {
+    background #4c7899
+    statusline #f9f9f9
+    separator #2e485b
+
+    focused_workspace  #2e485b #2e485b #f9f9f9
+    active_workspace   #4c7899 #4c7899 #f9f9f9
+    inactive_workspace #4c7899 #4c7899 #f9f9f9
+    urgent_workspace   #2f343a #900000 #f9f9f9
+  }
+}
+
+# Keyboard shortcuts
+bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Shift+Return exec firefox
+bindsym $mod+l exec "~/.config/i3/lock.sh; xmodmap ~/.Xmodmap"
+bindsym $mod+k kill
+bindsym $mod+d exec --no-startup-id rofi -show run -theme base16-flat
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+mode "resize" {
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+  bindsym Up resize grow height 10 px or 10 ppt
+  bindsym Escape mode "default
+}
+bindsym $mod+r mode "resize"
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
