@@ -12,6 +12,10 @@ if [[ "${EUID}" -ne 0 ]]; then
 fi
 
 setup_apt() {
+  # Disable translations for faster apt updates
+  mkdir -p /etc/apt/apt.conf.d
+  echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/99translations
+
   apt update
   apt install -y \
     apt-transport-https \
@@ -31,10 +35,6 @@ deb-src http://deb.debian.org/debian/ ${DEBIAN_REL}-updates main contrib non-fre
 deb http://security.debian.org/ ${DEBIAN_REL}/updates main contrib non-free
 deb-src http://security.debian.org/ ${DEBIAN_REL}/updates main contrib non-free
 EOF
-
-  # Disable translations for faster apt updates
-  mkdir -p /etc/apt/apt.conf.d
-  echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/99translations
 }
 
 install_base() {
@@ -42,7 +42,6 @@ install_base() {
   apt full-upgrade -y
 
   apt install -y \
-    chromium \
     curl \
     firefox-esr \
     git \
@@ -56,6 +55,9 @@ install_base() {
     wget \
     zip \
     --no-install-recommends
+
+  apt purge -y \
+    modemmanager
 }
 
 cleanup() {

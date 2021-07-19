@@ -1,4 +1,4 @@
-# Ignore this file if we're in a non-interactive execution
+# Ignore this file if we're in non-interactive execution
 case $- in
     *i*) ;;
       *) return;;

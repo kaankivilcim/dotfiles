@@ -11,13 +11,6 @@ if [[ "${EUID}" -eq 0 ]]; then
   exit
 fi
 
-# Check install type
-if [[ -n "${1}" && "${1}" == "desktop" ]]; then
-  declare -rg INSTALL_TARGET=desktop
-else
-  declare -rg INSTALL_TARGET=generic
-fi
-
 copy_dotfiles() {
   (
   cd ..
@@ -63,9 +56,28 @@ setup_home() {
   mkdir ~/Git
 
   copy_dotfiles
-  if [[ "${INSTALL_TARGET}" == "desktop" ]]; then
-    copy_desktop_dotfiles
-  fi
+  copy_desktop_dotfiles
+}
+
+setup_alacritty() {
+  # Install the Rust toolchain
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  source $HOME/.cargo/env
+
+  sudo apt install -y \
+    cmake \
+    pkg-config \
+    libfreetype6-dev \
+    libfontconfig1-dev \
+    libxcb-xfixes0-dev \
+    python3 \
+    --no-install-recommends
+
+  git clone https://github.com/alacritty/alacritty.git ~/Git/alacritty
+  cd ~/Git/alacritty
+  cargo build --release
+  sudo cp target/release/alacritty /usr/local/bin
+  sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
 }
 
 setup_vim () {
@@ -122,11 +134,6 @@ setup_i3() {
 }
 
 setup_theme() {
-  sudo apt install -y \
-    gconf2 \
-    uuid-runtime \
-    --no-install-recommends
-
   # Base16 for shells
   git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
   ln -s ~/.config/base16-shell/scripts/base16-flat.sh ~/.base16_theme
@@ -141,13 +148,11 @@ setup_theme() {
   wget -O /tmp/Hack-v3.003-ttf.zip https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip
   unzip /tmp/Hack-v3.003-ttf.zip -d ~/.local/share/fonts/
   fc-cache -f -v
-
-  # GNOME Terminal
-  dconf load /org/gnome/ < ~/.config/dconf/settings.conf
 }
 
 setup_sudo
 setup_home
+setup_alacritty
 setup_vim
 setup_i3
 setup_theme

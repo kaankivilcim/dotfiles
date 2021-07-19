@@ -1,5 +1,5 @@
-# Auto-lock screen after 2 idle minutes
-exec --no-startup-id xautolock -time 2 -locker "~/.config/i3/lock.sh; xmodmap ~/.Xmodmap"
+# Auto-lock screen after five idle minutes
+exec --no-startup-id xautolock -time 5 -locker "~/.config/i3/lock.sh; /usr/bin/xmodmap ~/.Xmodmap"
 
 # Use Windows key as modifier key
 set $mod Mod1
@@ -8,7 +8,7 @@ set $mod Mod1
 exec --no-startup-id xsetroot -solid "#282828"
 new_window pixel 3
 hide_edge_borders both
-font pango:Hack Regular 9
+font pango:Hack 9
 focus_follows_mouse no
 
 gaps inner 10
@@ -38,11 +38,11 @@ bar {
 }
 
 # Keyboard shortcuts
-bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Shift+Return exec firefox
-bindsym $mod+l exec "~/.config/i3/lock.sh; xmodmap ~/.Xmodmap"
+bindsym $mod+Return exec /usr/local/bin/alacritty
+bindsym $mod+Shift+Return exec /usr/bin/firefox
+bindsym $mod+l exec "~/.config/i3/lock.sh; /usr/bin/xmodmap ~/.Xmodmap"
 bindsym $mod+k kill
-bindsym $mod+d exec --no-startup-id rofi -show run -theme base16-flat
+bindsym $mod+d exec --no-startup-id /usr/bin/rofi -show run
 
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
@@ -64,10 +64,10 @@ bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
 mode "resize" {
-  bindsym Left resize shrink width 10 px or 10 ppt
-  bindsym Down resize shrink height 10 px or 10 ppt
-  bindsym Right resize grow width 10 px or 10 ppt
-  bindsym Up resize grow height 10 px or 10 ppt
+  bindsym Left resize shrink width 10 px or 5 ppt
+  bindsym Down resize shrink height 10 px or 5 ppt
+  bindsym Right resize grow width 10 px or 5 ppt
+  bindsym Up resize grow height 10 px or 5 ppt
   bindsym Escape mode "default
 }
 bindsym $mod+r mode "resize"
