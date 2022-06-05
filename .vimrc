@@ -10,7 +10,7 @@ call vundle#end()
 
 " Enable syntax highlighting, auto-indentation, sensible tabs, etc.
 filetype plugin indent on
-syntax on
+syntax enable
 
 set autoindent
 set wrap
@@ -20,6 +20,14 @@ set smarttab
 set shiftwidth=4
 set tabstop=4
 set softtabstop=4
+
+set cursorline
+set showcmd
+
+" Avoid unwanted and insecure command execution
+set secure
+set nomodeline
+set noexrc
 
 " Change indent based on file type
 autocmd FileType sh setlocal shiftwidth=2 tabstop=2 softtabstop=2

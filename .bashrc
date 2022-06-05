@@ -15,6 +15,9 @@ alias ll='ls --color=auto -alF'
 alias ls='ls --color=auto'
 alias mkdir='mkdir -pv'
 alias mv='mv -v'
+alias screen='screen -U'
+alias tmux='tmux -2'
+alias tmuxa='tmux attach || tmux new-session'
 alias xclip='/usr/bin/xclip -selection clipboard'
 
 # History control
