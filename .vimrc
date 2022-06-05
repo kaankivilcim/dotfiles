@@ -64,3 +64,8 @@ if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
 endif
+
+" Include a system-local vimrc if present
+if filereadable(expand("~/.vimrc_local"))
+    source ~/.vimrc_local
+endif
