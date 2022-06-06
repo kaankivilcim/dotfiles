@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -eux
 set -o pipefail
 
 export DEBIAN_FRONTEND=noninteractive
@@ -14,30 +14,30 @@ fi
 copy_dotfiles() {
   (
   cd ..
-  cp -r .config ${HOME}
-  cp .bash_profile ${HOME}
-  cp .bashrc ${HOME}
-  cp .i3status.conf ${HOME}
-  cp .tmux.conf ${HOME}
-  cp .vimrc ${HOME}
+  cp -r .config "${HOME}"
+  cp .bash_profile "${HOME}"
+  cp .bashrc "${HOME}"
+  cp .i3status.conf "${HOME}"
+  cp .tmux.conf "${HOME}"
+  cp .vimrc "${HOME}"
   )
 }
 
 copy_desktop_dotfiles() {
   (
   cd ..
-  cp .Xmodmap ${HOME}
-  cp .xsessionrc ${HOME}
+  cp .Xmodmap "${HOME}"
+  cp .xsessionrc "${HOME}"
   )
 }
 
 setup_sudo() {
   # Allow use of sudo without a password
-  su -c "echo -e \"\n$(whoami) ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
+  su -c "echo -e \"\\n$(whoami) ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
 
   # Add user into useful systemd groups
-  sudo gpasswd -a $(whoami) systemd-journal
-  sudo gpasswd -a $(whoami) systemd-network
+  sudo gpasswd -a "$(whoami)" systemd-journal
+  sudo gpasswd -a "$(whoami)" systemd-network
 }
 
 setup_home() {
@@ -96,6 +96,8 @@ setup_i3() {
     dh-autoreconf \
     libev-dev \
     libpango1.0-dev \
+    libpcre2-8-0 \
+    libpcre2-dev \
     libstartup-notification0-dev \
     libxcb-cursor-dev \
     libxcb-icccm4-dev \

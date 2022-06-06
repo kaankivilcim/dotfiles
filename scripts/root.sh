@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -eux
 set -o pipefail
 
 export DEBIAN_FRONTEND=noninteractive
@@ -42,18 +42,24 @@ install_base() {
   apt full-upgrade -y
 
   apt install -y \
+    build-essential \
     curl \
+    entr \
+    ffmpeg \
     firefox-esr \
     git \
     htop \
     imagemagick \
     nmap \
+    screen \
     scrot \
+    shellcheck \
     tmux \
     unzip \
     vim \
     wget \
     zip \
+    zsh \
     --no-install-recommends
 
   apt purge -y \
@@ -61,7 +67,7 @@ install_base() {
 }
 
 cleanup() {
-  apt autoremove
+  apt autoremove -y
   apt clean
 }
 
